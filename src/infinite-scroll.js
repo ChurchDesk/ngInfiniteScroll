@@ -30,19 +30,18 @@ angular.module(MODULE_NAME, [])
       let unregisterEventListener = null;
       let checkInterval = false;
 
-      function height(elem, includeChildren) {
-        elem = elem[0] || elem;
+      function height(element, includeChildren) {
+        const targetElement = element[0] || element;
         if (includeChildren === true) {
-          var totalHeight = 0;
-          angular.forEach(angular.element(elem).children(), function(child) {
+          let totalHeight = 0;
+          angular.forEach(angular.element(targetElement).children(), child => {
             totalHeight += angular.element(child).height();
           });
           return totalHeight;
-        } else if (isNaN(elem.offsetHeight)) {
-          return elem.document.documentElement.clientHeight;
-        } else {
-          return elem.offsetHeight;
+        } else if (isNaN(targetElement.offsetHeight)) {
+          return targetElement.document.documentElement.clientHeight;
         }
+        return targetElement.offsetHeight;
       }
 
       function pageYOffset(element) {
