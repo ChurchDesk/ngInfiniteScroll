@@ -11,6 +11,7 @@ angular.module(MODULE_NAME, [])
     scope: {
       infiniteScroll: '&',
       infiniteScrollContainer: '=',
+      infiniteScrollContainerFullHeight: '=',
       infiniteScrollDistance: '=',
       infiniteScrollDisabled: '=',
       infiniteScrollUseDocumentBottom: '=',
@@ -29,13 +30,19 @@ angular.module(MODULE_NAME, [])
       let unregisterEventListener = null;
       let checkInterval = false;
 
-      function height(element) {
-        const el = element[0] || element;
-
-        if (isNaN(el.offsetHeight)) {
-          return el.document.documentElement.clientHeight;
+      function height(elem, includeChildren) {
+        elem = elem[0] || elem;
+        if (includeChildren === true) {
+          var totalHeight = 0;
+          angular.forEach(angular.element(elem).children(), function(child) {
+            totalHeight += angular.element(child).height();
+          });
+          return totalHeight;
+        } else if (isNaN(elem.offsetHeight)) {
+          return elem.document.documentElement.clientHeight;
+        } else {
+          return elem.offsetHeight;
         }
-        return el.offsetHeight;
       }
 
       function pageYOffset(element) {
@@ -66,6 +73,9 @@ angular.module(MODULE_NAME, [])
         if (container === windowElement) {
           containerBottom = height(container) + pageYOffset(container[0].document.documentElement);
           elementBottom = offsetTop(elem) + height(elem);
+        } else if (scope.infiniteScrollContainerFullHeight === true) {
+          elementBottom = height(elem, true);
+          containerBottom = container.height() + container.scrollTop();
         } else {
           containerBottom = height(container);
           let containerTopOffset = 0;
