@@ -1,0 +1,16 @@
+{
+  "name": "ng-infinite-scroll",
+  "description": "Infinite scrolling for AngularJS",
+  "main": "build/ng-infinite-scroll.js",
+  "authors": [
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ChurchDesk/ngInfiniteScroll",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
